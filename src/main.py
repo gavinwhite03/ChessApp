@@ -6,6 +6,8 @@ from game import Game
 from square import Square
 from move import Move
 from ai import AI
+from fenBuilder import fenBuilder
+from board import Board
 
 class Main:
     
@@ -14,6 +16,8 @@ class Main:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Chess')
         self.game = Game()
+        self.fenBuilder = fenBuilder()
+        self.board = Board()
         self.running = True  # Flag to control the main loop
         
     def mainLoop(self):
@@ -22,7 +26,6 @@ class Main:
         screen = self.screen
         board = self.game.board
         dragger = self.game.dragger
-        need_move_calculation = True
         
         
         while self.running:
@@ -93,7 +96,7 @@ class Main:
                             captured = board.squares[released_row][released_col].has_piece()
                             board.move(dragger.piece, move)
                             
-                            board.set_true_en_passant(dragger.piece, dragger.initial_row, released_row, dragger.initial_col)
+                            board.set_true_en_passant(dragger.piece, dragger.initial_row, released_row)
                             game.play_sound(captured)
                             # show methods
                             game.show_bg(screen)
@@ -115,6 +118,9 @@ class Main:
                         game = self.game
                         board = self.game.board
                         dragger = self.game.dragger
+                        
+                    if event.key == pygame.K_f:
+                        self.fenBuilder.write_fen(self.board)
                     
                     
                 # Quit the application

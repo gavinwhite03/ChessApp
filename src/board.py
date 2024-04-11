@@ -116,12 +116,11 @@ class Board():
     def castling(self, initial, final):
         return abs(initial.col - final.col) == 2
     
-    def set_true_en_passant(self, piece, start_row, end_row, start_col):
+    def set_true_en_passant(self, piece, start_row, end_row):
         if not isinstance(piece, Pawn):
             return
         if abs(start_row - end_row) == 2:
             piece.turn_where_set_true = self.turn_counter
-            print('Turn where set true: ', piece.turn_where_set_true)
         else:
             piece.turn_where_set_true = None  # Reset turn_where_set_true if not moving two squares
         # No need to set en_passant here, it will be set during pawn_moves()
